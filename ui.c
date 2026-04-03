@@ -40,7 +40,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
     cairo_show_text(cr, "SNAKE GAME");
 
     // CURRENT SCORE DISPLAY
-    char score[64];   // here i changed 'score_buf' to 'score' 
+    char score[64];    
     snprintf(score, sizeof(score), "SCORE: %d", gs.score);
     cairo_set_font_size(cr, 14);
     cairo_set_source_rgb(cr, 0.85, 0.85, 0.85);
@@ -49,7 +49,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
     cairo_show_text(cr, score);
 
     // HIGH SCORE DISPLAY
-    char hi_score[64];  //changed hi_buf to hi_score
+    char hi_score[64];
     snprintf(hi_score, sizeof(hi_score), "BEST: %d", gs.high_score);
     cairo_text_extents(cr,hi_score, &te);
     cairo_set_source_rgb(cr, 0.70, 0.55, 0.90); // purple
@@ -110,45 +110,8 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
         cairo_fill(cr);
 
         // EYES ON HEAD
-        if (i == 0) {
-            /*
-             * Eye positions depend on direction so they always
-             * appear on the "front face" of the head.
-             */
-            double ex1, ey1, ex2, ey2;
-            double ew = sw * 0.18;  /* Eye radius */
 
-            switch (gs.dir) {
-                case DIR_RIGHT:
-                    ex1 = sx + sw*0.72; ey1 = sy + sw*0.25;
-                    ex2 = sx + sw*0.72; ey2 = sy + sw*0.65;
-                    break;
-                case DIR_LEFT:
-                    ex1 = sx + sw*0.12; ey1 = sy + sw*0.25;
-                    ex2 = sx + sw*0.12; ey2 = sy + sw*0.65;
-                    break;
-                case DIR_UP:
-                    ex1 = sx + sw*0.25; ey1 = sy + sw*0.12;
-                    ex2 = sx + sw*0.65; ey2 = sy + sw*0.12;
-                    break;
-                default: /* DIR_DOWN */
-                    ex1 = sx + sw*0.25; ey1 = sy + sw*0.75;
-                    ex2 = sx + sw*0.65; ey2 = sy + sw*0.75;
-                    break;
-            }
-
-            /* Dark eye base */
-            cairo_set_source_rgb(cr, 0.05, 0.05, 0.05);
-            cairo_arc(cr, ex1, ey1, ew, 0, 2*G_PI); cairo_fill(cr);
-            cairo_arc(cr, ex2, ey2, ew, 0, 2*G_PI); cairo_fill(cr);
-
-            /* White pupil highlight */
-            cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
-            cairo_arc(cr, ex1 + ew*0.3, ey1 - ew*0.3, ew*0.4, 0, 2*G_PI);
-            cairo_fill(cr);
-            cairo_arc(cr, ex2 + ew*0.3, ey2 - ew*0.3, ew*0.4, 0, 2*G_PI);
-            cairo_fill(cr);
-        }
+        
     }
     
     

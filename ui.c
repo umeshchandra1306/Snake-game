@@ -147,6 +147,72 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
             cairo_fill(cr);
         }
     }
+    if (gs.paused && !gs.game_over) {
+        cairo_set_source_rgba(cr, 0, 0, 0, 0.55);
+        cairo_rectangle(cr, gx, gy, gw, gh);
+        cairo_fill(cr);
+
+        cairo_select_font_face(cr, "Monospace",
+                               CAIRO_FONT_SLANT_NORMAL,
+                               CAIRO_FONT_WEIGHT_BOLD);
+        cairo_set_font_size(cr, 30);
+        cairo_set_source_rgb(cr, 0.95, 0.85, 0.25);  /* Yellow */
+        const char *pt = "PAUSED";
+        cairo_text_extents(cr, pt, &te);
+        cairo_move_to(cr, gx + gw/2 - te.width/2,
+                          gy + gh/2 + te.height/2);
+        cairo_show_text(cr, pt);
+
+        cairo_set_font_size(cr, 13);
+        cairo_set_source_rgb(cr, 0.75, 0.75, 0.75);
+        const char *hint = "Press P to resume";
+        cairo_text_extents(cr, hint, &te);
+        cairo_move_to(cr, gx + gw/2 - te.width/2,
+                          gy + gh/2 + te.height/2 + 30);
+        cairo_show_text(cr, hint);
+    }
+ 
+    if (gs.game_over) {
+        cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.65);
+        cairo_rectangle(cr, gx, gy, gw, gh);
+        cairo_fill(cr);
+
+        draw_rounded_rect(cr, gx + gw/2 - 120,
+                              gy + gh/2 - 65, 240, 130, 12);
+        cairo_set_source_rgba(cr, 0.12, 0.14, 0.20, 0.96);
+        cairo_fill(cr);
+
+        draw_rounded_rect(cr, gx + gw/2 - 120,
+                              gy + gh/2 - 65, 240, 130, 12);
+        cairo_set_source_rgba(cr, 0.90, 0.25, 0.30, 0.9);
+        cairo_set_line_width(cr, 2);
+        cairo_stroke(cr);
+
+        cairo_select_font_face(cr, "Monospace",
+                               CAIRO_FONT_SLANT_NORMAL,
+                               CAIRO_FONT_WEIGHT_BOLD);
+        cairo_set_font_size(cr, 26);
+        cairo_set_source_rgb(cr, 0.95, 0.25, 0.30);
+        const char *go = "GAME OVER";
+        cairo_text_extents(cr, go, &te);
+        cairo_move_to(cr, gx + gw/2 - te.width/2, gy + gh/2 - 20);
+        cairo_show_text(cr, go);
+
+        char fs_buf[64];
+        snprintf(fs_buf, sizeof(fs_buf), "Score: %d", gs.score);
+        cairo_set_font_size(cr, 14);
+        cairo_set_source_rgb(cr, 0.85, 0.85, 0.85);
+        cairo_text_extents(cr, fs_buf, &te);
+        cairo_move_to(cr, gx + gw/2 - te.width/2, gy + gh/2 + 8);
+        cairo_show_text(cr, fs_buf);
+
+        cairo_set_font_size(cr, 12);
+        cairo_set_source_rgb(cr, 0.55, 0.80, 0.55);
+        const char *restart = "Press R to play again";
+        cairo_text_extents(cr, restart, &te);
+        cairo_move_to(cr, gx + gw/2 - te.width/2, gy + gh/2 + 34);
+        cairo_show_text(cr, restart);
+    }
         
     }
     

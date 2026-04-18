@@ -7,8 +7,8 @@
 #include <string.h>
 
 /* grid settings */
-#define GRID_COLS 25
-#define GRID_ROWS 25
+#define GRID_COLS 30
+#define GRID_ROWS 30
 
 /* size of each box */
 #define CELL_SIZE 24
@@ -85,5 +85,5 @@ void draw_rounded_rect(cairo_t *cr, double x, double y,
 /* keyboard input */
 gboolean on_key_press(GtkWidget *widget,
     GdkEventKey *event,
-   gpointer data);
+    gpointer data);
 #endif

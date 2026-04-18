@@ -40,7 +40,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
     cairo_show_text(cr, "SNAKE GAME");
 
     // Current Score Display
-    char score[64];    
+    char score[64];     //
     snprintf(score, sizeof(score), "SCORE: %d", gs.score);
     cairo_set_font_size(cr, 14);
     cairo_set_source_rgb(cr, 0.85, 0.85, 0.85);
@@ -49,7 +49,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
     cairo_show_text(cr, score);
 
     // High Score Display
-    char hi_score[64];
+    char hi_score[64];    //
     snprintf(hi_score, sizeof(hi_score), "BEST: %d", gs.high_score);
     cairo_text_extents(cr,hi_score, &te);
     cairo_set_source_rgb(cr, 0.70, 0.55, 0.90); // purple
@@ -147,6 +147,8 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
             cairo_fill(cr);
         }
     }
+
+    // Pause screen
     if (gs.paused && !gs.game_over) {
         cairo_set_source_rgba(cr, 0, 0, 0, 0.55);
         cairo_rectangle(cr, gx, gy, gw, gh);
@@ -172,16 +174,19 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
         cairo_show_text(cr, hint);
     }
  
+    // Game Over Screen
     if (gs.game_over) {
         cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.65);
         cairo_rectangle(cr, gx, gy, gw, gh);
         cairo_fill(cr);
 
+        // popup box
         draw_rounded_rect(cr, gx + gw/2 - 120,
                               gy + gh/2 - 65, 240, 130, 12);
         cairo_set_source_rgba(cr, 0.12, 0.14, 0.20, 0.96);
         cairo_fill(cr);
 
+        // red border
         draw_rounded_rect(cr, gx + gw/2 - 120,
                               gy + gh/2 - 65, 240, 130, 12);
         cairo_set_source_rgba(cr, 0.90, 0.25, 0.30, 0.9);
@@ -198,6 +203,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
         cairo_move_to(cr, gx + gw/2 - te.width/2, gy + gh/2 - 20);
         cairo_show_text(cr, go);
 
+        // final score
         char fs_buf[64];
         snprintf(fs_buf, sizeof(fs_buf), "Score: %d", gs.score);
         cairo_set_font_size(cr, 14);
@@ -213,6 +219,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
         cairo_move_to(cr, gx + gw/2 - te.width/2, gy + gh/2 + 34);
         cairo_show_text(cr, restart);
     }
+    
     if (!gs.game_over) {
         cairo_set_font_size(cr, 10);
         cairo_set_source_rgba(cr, 0.45, 0.45, 0.55, 0.8);

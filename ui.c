@@ -1,9 +1,9 @@
 #include "snake.h"
 
-void draw_rounded_rect(cairo_t *cr, double x, double y, double w, double h, double r){
+void draw_rounded_rect(cairo_t *cr, double x, double y, double w, double h, double r) {
     cairo_new_sub_path(cr);
     cairo_arc(cr, x + w - r, y + r, r, -G_PI/2, 0);
-    cairo_arc(cr, x + w - r, y + h + r, r, 0, G_PI/2);
+    cairo_arc(cr, x + w - r, y + h - r, r, 0, G_PI/2); 
     cairo_arc(cr, x + r, y + h - r, r, G_PI/2, G_PI);
     cairo_arc(cr, x + r, y + r, r, G_PI, 3*G_PI/2);
     cairo_close_path(cr);
@@ -80,10 +80,12 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
     double fy = gy + gs.food.y * CELL_SIZE + 2;
     double fs = CELL_SIZE - 4;
 
-    //glow effect - not done - not preferred
-
     draw_rounded_rect(cr, fx, fy, fs, fs, fs/2);
     cairo_set_source_rgb(cr, 0.95, 0.25, 0.30);
+    cairo_fill(cr);
+
+    cairo_arc(cr, fx + fs * 0.33, fy + fs * 0.28, fs * 0.14, 0, 2*G_PI);
+    cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 0.55);
     cairo_fill(cr);
 
     // Snake Body
@@ -95,7 +97,7 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
 
         double t = (gs.length > 1)? (double)(gs.length - 1 - i)/(gs.length -1):0.0;
 
-        if (i=0) // head part
+        if (i==0) // head part
         {
             cairo_set_source_rgb(cr, 0.25, 0.92, 0.42);
         }
@@ -219,12 +221,12 @@ gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data){
         cairo_move_to(cr, gx + gw/2 - te.width/2, gy + gh/2 + 34);
         cairo_show_text(cr, restart);
     }
-    
+
     if (!gs.game_over) {
         cairo_set_font_size(cr, 10);
         cairo_set_source_rgba(cr, 0.45, 0.45, 0.55, 0.8);
         const char *hint =
-            "Arrow Keys / WASD  ·  P = Pause  ·  R = Restart  ·  Q = Quit";
+            "Controls: Arrow Keys / WASD  ·  P = Pause  ·  R = Restart  ·  Q = Quit";
         cairo_text_extents(cr, hint, &te);
         cairo_move_to(cr, W/2 - te.width/2, H - 6);
         cairo_show_text(cr, hint);

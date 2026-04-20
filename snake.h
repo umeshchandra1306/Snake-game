@@ -7,8 +7,8 @@
 #include <string.h>
 
 /* grid settings */
-#define GRID_COLS 30
-#define GRID_ROWS 30
+#define GRID_COLS 25
+#define GRID_ROWS 25
 
 /* size of each box */
 #define CELL_SIZE 24
